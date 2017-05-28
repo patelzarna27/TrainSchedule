@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>trainscheduler</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron text-center">
+            <h1>NJ Train Schedule</h1>
+        </div>
+        <div>
+        	<table class="table">
+        		<thead >
+        			<th>Train Name</th>
+        			<th>From</th>
+        			<th>To</th>
+        			<th>Arrival Time</th>
+        			<th>Departure Time</th>
+        			<th>Minutes Away</th>
+        		</thead>
+        		<tbody></tbody>
+        	</table>
+        </div>
+        
+        <form>
+            <div class="form-group">
+                <label>Train Name:</label>
+                <input type="text" id="txtName" class="form-control" placeholder="Enter train name" />
+            </div>
+            <div class="form-group">
+                <label>From:</label>
+                <input type="text" id="txtFrom" class="form-control" placeholder="Enter origin" />
+            </div>
+            <div class="form-group">
+                <label>To:</label>
+                <input type="text" id="txtTo" class="form-control" placeholder="Enter destination" />
+            </div>
+            <div class="form-group">
+                <label>Arrival Time:</label>
+                <input type="time" id="txtArrival" class="form-control" placeholder="Enter arrival time">
+            </div>
+            <div class="form-group">
+                <label>Departure Time:</label>
+                <input type="time" id="txtDeparture" class="form-control" placeholder="Enter departure time">
+            </div>
+            <button id="btnSubmit" class="btn btn-default">Submit</button>
+        </form>
+        
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/4.0.0/firebase.js"></script>
+    <script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyCc-R69lPB3Ho_BwO89EK1IBw6IxTIUwmY",
+        authDomain: "trainschedule-79073.firebaseapp.com",
+        databaseURL: "https://trainschedule-79073.firebaseio.com",
+        projectId: "trainschedule-79073",
+        storageBucket: "trainschedule-79073.appspot.com",
+        messagingSenderId: "487104212538"
+    };
+    firebase.initializeApp(config);
+
+    //REFERENCIN DATABASE 
+    var db = firebase.database();
+
+    //CREATING VARIABLE
+    var _txtName = "";
+    var _txtFrom = "";
+    var _txtTo ="";
+    var _txtArrival="";
+    var _txtDeparture ="";
+    var txtMinuteAway = "";
+
+    //submit button event
+    $("#btnSubmit").on('click',function function_name(event) {
+    	// body...
+    	event.preventDefault();
+    	_txtName = $("#txtName").val();
+    	_txtFrom = $("#txtFrom").val();
+    	_txtTo = $("#txtTo").val();
+    	_txtArrival = $("#txtArrival").val();
+    	_txtDeparture = $("#txtDeparture").val();
+
+    	db.ref().push({
+    		Train : _txtName,
+    		From : _txtFrom,
+    		To:_txtTo,
+    		Arrival : _txtArrival,
+    		Departure : _txtDeparture
+    	});
+
+    	clearform();
+
+    });
+
+    function clearform()
+    {
+		$("#txtName").val("");
+    	$("#txtFrom").val("");
+    	$("#txtTo").val("");
+    	$("#txtArrival").val("");
+    	$("#txtDeparture").val("");
+
+    }
+
+    </script>
+</body>
+
+</html>
